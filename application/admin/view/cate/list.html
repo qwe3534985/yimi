@@ -2,7 +2,7 @@
 <div class="main-container container-fluid">
     <div class="page-container">
         <!-- Page Sidebar -->
-{:widget('Market/left')}
+        {:widget('Market/left')}
         <!-- /Page Sidebar -->
         <!-- Page Content -->
         <div class="page-content">
@@ -12,7 +12,7 @@
                     <li>
                         <a href="#">系统</a>
                     </li>
-                    <li class="active">用户管理</li>
+                    <li class="active">分类管理</li>
                 </ul>
             </div>
             <!-- /Page Breadcrumb -->
@@ -33,32 +33,34 @@
                                         <thead class="">
                                         <tr>
                                             <th class="text-center">ID</th>
-                                            <th class="text-center">用户名称</th>
+                                            <th class="text-center">分类名称</th>
+                                            <th class="text-center">pid</th>
+                                            <th class="text-center">path</th>
+                                            <th class="text-center">level</th>
                                             <th class="text-center">操作</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {foreach $data as $v}
+                                        {foreach $data.data as $v}
                                         <tr>
                                             <td align="center">{$v.id}</td>
-                                            <td align="center">{$v.username}</td>
+                                            <td>{$v.name}</td>
+                                            <td align="center">{$v.pid}</td>
+                                            <td align="center">{$v.path}</td>
+                                            <td align="center">{$v.level}</td>
                                             <td align="center">
                                                 <a href="{:url('Manager/edit',['id'=>$v.id])}"
                                                    class="btn btn-primary btn-sm shiny">
                                                     <i class="fa fa-edit"></i> 编辑
                                                 </a>
+                                                <a href="{:url('Cate/addCate',['id'=>$v.id])}"
+                                                   class="btn btn-primary btn-sm shiny">
+                                                    <i class="fa fa-edit"></i> 添加子分类
+                                                </a>
                                                 <a href="#"
                                                    onClick="warning('确实要删除吗', '{:url(\'Manager/del\',[\'id\'=>$v.id])}')"
                                                    class="btn btn-danger btn-sm shiny">
                                                     <i class="fa fa-trash-o"></i> 删除
-                                                </a>
-                                                <a href="/admin/user/edit/id/6.html"
-                                                   class="btn btn-primary btn-sm shiny" name="0">
-                                                    <i class="fa fa-edit"></i> 解冻
-                                                </a>
-                                                <a href="#" onClick="warning('确实要删除吗', '/admin/user/del/id/6.html')"
-                                                   class="btn btn-danger btn-sm shiny" name="1">
-                                                    <i class="fa fa-trash-o"></i> 冻结
                                                 </a>
                                             </td>
                                         </tr>
@@ -68,6 +70,7 @@
                                 </div>
                                 <div>
                                 </div>
+                                {$data.pag}
                             </div>
                         </div>
                     </div>

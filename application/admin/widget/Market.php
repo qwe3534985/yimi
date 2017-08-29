@@ -8,8 +8,6 @@
 
 namespace app\admin\widget;
 
-namespace app\admin\controller;
-
 use think\Controller;
 
 class Market extends Controller
