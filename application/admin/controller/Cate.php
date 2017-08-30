@@ -43,11 +43,35 @@ class Cate extends Controller
     }
 
     /**
+     * 添加顶级分类与子分类集合
+     */
+    public function addAllCate()
+    {
+        if (request()->isPost()) {
+            $arr = [
+                'id' => $this->request->param('cate_id'),
+                'name' => $this->request->param('cate_name')
+            ];
+            //验证器
+            $validate = Validate('Cate');
+            if (!$validate->scene('add')->check($arr)) {
+                return $this->error($validate->getError());
+            }
+            //调用CateModel静态方法执行添加数据
+            $res = CateModel::addAllCate($arr);
+            if ($res) {
+                return $this->success('添加成功', url('index'));
+            } else {
+                return $this->error('添加失败');
+            }
+        }
+    }
+
+    /**
      * @return mixed
      * 添加顶级分类
      */
     public function topCate()
-
     {
         //判断是否是从input传入
         if ($this->request->isPost()) {
@@ -75,7 +99,7 @@ class Cate extends Controller
                 return $this->error('添加失败');
             }
         }
-        return $this->fetch('add');
+        return $this->fetch('addTopCate');
     }
 
     /**
@@ -113,7 +137,15 @@ class Cate extends Controller
             return $this->error('添加失败');
         }
     }
-    public function add(){
-        
+
+        /**
+         * 查询所有分类
+         */
+    public function add()
+    {
+        //通过CateModel静态方法查询所有数据
+        $data = CateModel::getAllCate();
+        $this->assign('data', $data);
+        return $this->fetch('add');
     }
 }

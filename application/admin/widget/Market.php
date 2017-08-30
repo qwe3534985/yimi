@@ -12,6 +12,26 @@ use think\Controller;
 
 class Market extends Controller
 {
+    public function _initialize()
+    {
+        parent::_initialize();
+//        $this->islogin();
+    }
+
+    /**
+     * 判断是否登入
+     */
+    public function islogin(){
+        $admin=session('manager');
+        if (!isset($admin)||!$admin['id']){
+            return $this->error('请先登入...',url('Login/index'));
+        }
+    }
+
+    /**
+     * @return mixed
+     * 页首
+     */
     public function header()
     {
         return $this->fetch('common/header');

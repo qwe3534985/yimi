@@ -23,7 +23,6 @@ class Cate extends Validate
     ];
     /**
      * 验证场景
-     *
      */
     protected $scene = [
         'add' => ['name'],

@@ -14,12 +14,54 @@ use think\Db;
 class Cate extends Model
 {
     /**
+     * 添加顶级和子分类的集合
+     */
+    static public function addAllCate($data)
+    {
+        //判断传入的$data['id']是否为0
+        if ($data['id'] == 0) {
+            //顶端分类
+            //顶端pid的值都为0
+            $pid = 0;
+            //顶端level的值也都为0
+            $level = 0;
+        } else {
+            //子分类
+            $pid = $data['id'];
+            //根据父分类的id主键查询数据
+            $res = Db::name('cate')->find('$data[id]');
+            $level = $res['level'] + 1;
+        }
+        $arr = [
+            'name' => $data['name'],
+            'pid' => $pid,
+            'level' => $level
+        ];
+
+        //将数据添加到cate表并返回id主键
+        $arr['id'] = db('cate')->insertGetId($arr);
+        //判断传入的$data['id']是否为0
+        if ($data['id'] == 0) {
+            //顶级分类
+            //是则是顶级分类 path等于自己的id
+            $arr['path'] = $arr['id'];
+        } else {
+            //子分类
+            //否则是子分类 path等于父类的path用,拼上自己的id
+            $arr['path'] = $res['path'] . ',' . $arr['id'];
+        }
+        $res = db('cate')->update(['id' => $arr['id'], 'path' => $arr['path']]);
+        return $res ? true : false;
+    }
+
+    /**
      * 查询所有的分类数据
      */
     static public function getAllCate()
     {
         //cate中的数据,按path排序 每页数据4条
         $data = Db::name('cate')->order('path')->paginate(4);
+        $addData = Db::name('cate')->order('path')->select();
         //通过render()方法取出分页链接
         $pag = $data->render();
         //只获取分页后所有数据
@@ -28,8 +70,11 @@ class Cate extends Model
             //'--'重复level次在拼接上name
             $arr[$key]['name'] = str_repeat("--", $val['level']) . $val['name'];
         }
+        foreach ($addData as $key => $val) {
+            $addData[$key]['name'] = str_repeat("--", $val['level']) . $val['name'];
+        }
         //return数据与分页链接
-        return ['data' => $arr, 'pag' => $pag,];
+        return ['data' => $arr, 'pag' => $pag, 'addData' => $addData];
     }
 
     /**

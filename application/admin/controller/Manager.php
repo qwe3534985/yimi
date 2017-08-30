@@ -20,7 +20,7 @@ class Manager extends Controller
     {
         $data = db('manager')->select();
         $this->assign('data', $data);
-        return $this->fetch('admin');
+        return $this->fetch('manager');
     }
 
     /**
