@@ -15,7 +15,7 @@ class Market extends Controller
     public function _initialize()
     {
         parent::_initialize();
-//        $this->islogin();
+        $this->islogin();
     }
 
     /**

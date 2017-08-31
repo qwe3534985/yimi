@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>登录_一米市集</title>
-    <?php
-        require('head.php');
-    ?>
-    <link rel="stylesheet" href="./css/login.css">
+    {:widget('Market/head')}
+    <link rel="stylesheet" href="__STATIC__/index/css/login.css">
 </head>
 <body>
 <!--顶部-->
@@ -14,9 +12,7 @@
 <!--主要内容-->
 <div class="container noSec">
     <!--头部-->
-    <?php
-    require('header.php');
-    ?>
+   {:widget('Market/header')}
     <!--主模块-->
     <div class="section">
         <div class="left fl">
@@ -27,12 +23,10 @@
                 <p><input type="text" placeholder="用户名/邮箱地址/手机号" name="name"></p>
                 <p>密码</p>
                 <p><input type="password" placeholder="填写密码" name="password"></p>
-
                 <p>校验码</p>
                 <input type="text" placeholder="填写验证码" name="yanzhengma" id="shortIn">
                 <img src="" alt="" width="65px" height="20px">
                 <a href="" style="font-size: 0.8em">看不清楚?换一个</a>
-
                 <p><label><input type="checkbox" class="checkbox" checked>记住账号</label></p>
                 <p><input type="submit" value="登录" class="submit"></p>
                 <p><a href="">忘记密码？</a></p>
@@ -48,10 +42,7 @@
 </div>
 
 <!--底部、回到顶部按钮、客服按钮-->
-<?php
-require('footer.php');
-?>
-
+{:widget('Market/footer')}
 <div class="tishi">
     <span>!</span>用户名或密码错误！
 </div>
